@@ -25,43 +25,47 @@
 </template>
 
 <script>
-import slugify from 'slugify'
 import db from '@/firebase/init'
-
+import slugify from 'slugify'
+import firebase from 'firebase'
 export default {
-   name: 'Signup',
-   data(){
-      return{
-         email: null,
-         password: null,
-         alias: null,
-         feedback: null,
-         slug: null,
-
-      }
-   },
-   methods: {
-      signup(){
-         if(this.alias){
-            this.slug = slugify(this.alias, {
-               replacement: '-',
-               remove: /[$*_+~.()'"!\-:@]/g,
-               lower: true
+  name: 'Signup',
+  data(){
+    return{
+      email: null,
+      password: null,
+      alias: null,
+      feedback: null,
+      slug: null
+    }
+  },
+  methods: {
+    signup(){
+      if(this.alias && this.email && this.password){
+        this.feedback = null
+        this.slug = slugify(this.alias, {
+          replacement: '-',
+          remove: /[$*_+~.()'"!\-:@]/g,
+          lower: true
+        })
+        let ref = db.collection('users').doc(this.slug)
+        ref.get().then(doc => {
+          if(doc.exists){
+            this.feedback = 'This alias already exists'
+          } else {
+          // this alias does not yet exists in the db
+            firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+            .catch(err => {
+              console.log(err.message)
+              this.feedback = err.message
             })
-            let ref = db.collection('users').doc(this.slug)
-            ref.get().then(doc => {
-               if(doc.exsist){
-                  this.feedback = "This alias already exisits"
-               } else {
-                  this.feedback = "This alias is free to use"
-               }
-            })
-            console.log(this.slug)
-         }else{
-            this.feedback = "You must enter an alias"
-         }
+          }
+        })
+      } else {
+        this.feedback = 'Please fill in all fields'
       }
-   }
+    }
+  }
 }
 </script>
 
