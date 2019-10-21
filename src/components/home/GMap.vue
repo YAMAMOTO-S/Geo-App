@@ -5,12 +5,14 @@
 </template>
 
 <script>
+import firebase from 'firebase'
+
 export default {
   name: 'GMap',
   data(){
     return{
-      lat: 35,
-      lng: 139
+      lat: 53,
+      lng: -2
     }
   },
   methods: {
@@ -18,14 +20,15 @@ export default {
       const map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: this.lat, lng: this.lng },
         zoom: 6,
-        maxZoom: 150,
-        minZoom: 130,
+        maxZoom: 15,
+        minZoom: 3,
         streetViewControl: false
       });
     }
   },
   mounted(){
     this.renderMap()
+    console.log(firebase.auth().currentUser)
   }
 }
 </script>
