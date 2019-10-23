@@ -51,7 +51,7 @@ export default {
         let ref = db.collection('users').doc(this.slug)
         ref.get().then(doc => {
           if(doc.exists){
-            this.feedback = 'This alias already exists'
+            this.feedback = 'OK'
           } else {
           // this alias does not yet exists in the db
             firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
