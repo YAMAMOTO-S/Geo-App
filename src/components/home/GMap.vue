@@ -40,7 +40,7 @@ export default {
             //add click event to marker
             //if click the marker you can see User Name
             marker.addListener('click', () => {
-              console.log(doc.id)
+              this.$router.push({ name: 'ViewPlofile', params: { id: doc.id }})
             })
           }
         })

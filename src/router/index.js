@@ -4,6 +4,7 @@ import GMap from '@/components/home/GMap'
 import Signup from '@/components/auth/Signup'
 import Login from '@/components/auth/Login'
 import firebase from 'firebase'
+import ViewPlofile from '@/components/profile/ViewPlofile'
 
 
 Vue.use(Router)
@@ -27,6 +28,14 @@ const router = new Router({
       path: '/login',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/profile/:id',
+      name: 'ViewPlofile',
+      component: ViewPlofile,
+      meta: {
+        requiresAuth: true
+      }
     }
   ]
 })
