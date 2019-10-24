@@ -20,7 +20,7 @@ export default {
     renderMap(){
       const map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: this.lat, lng: this.lng },
-        zoom: 6,
+        zoom: 8,
         maxZoom: 15,
         minZoom: 3,
         streetViewControl: false
@@ -28,12 +28,30 @@ export default {
     }
   },
   mounted(){
+    //get current User
+    let user = firebase.auth().currentUser
+    
     //get current location
     if(navigator.geolocation){
       navigator.geolocation.getCurrentPosition(pos => {
         this.lat = pos.coords.latitude
         this.lng = pos.coords.longitude
-        this.renderMap()
+
+        // find the user record and then update geolocation
+        db.collection('users').where('user_id', '==', user.uid).get()
+        .then(snapshot => {
+          snapshot.forEach((doc) => {
+            db.collection('users').doc(doc.id).update({
+              geolocation: {
+                lat: pos.coords.latitude,
+                lng: pos.coords.longitude
+              }
+            })
+          })
+        }).then(() => {
+          this.renderMap()
+        })
+
       }, (err) => {
         console.log(err)
         this.renderMap()
