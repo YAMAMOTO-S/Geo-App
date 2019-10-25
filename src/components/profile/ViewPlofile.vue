@@ -3,11 +3,14 @@
       <div class="card" v-if="profile">
          <h2 class="center">{{ profile.alias}}</h2>
          <ul class="comments collection">
-            <li>Comment</li>
+            <li v-for="(comment, index) in comments" :key="index">
+               <div class="fromcoment">{{ comment.from }} :</div>
+               <div class="gray-text ">{{ comment.content }}</div>
+            </li>
          </ul>
          <form @submit.prevent="addComment">
             <div class="field">
-               <label for="comment">Add a comment</label>
+               <label for="comment">Add a comment by pushing Enter Key</label>
                <input type="text" name="comment" v-model="newComment">
 
                <p v-if="feedback" class="red-text center">{{feedback}}</p>
@@ -26,7 +29,8 @@ export default {
     return{
       profile: null,
       newComment: null,
-      feedback: null
+      feedback: null,
+      comments: [],
     }
   },
   created(){
@@ -46,9 +50,23 @@ export default {
     .then(user => {
       this.profile = user.data()
     })
+
+    // comments
+    db.collection('comments').where('to', '==', this.$route.params.id)
+    .onSnapshot((snapshot) => {  //非同期にする
+      snapshot.docChanges().forEach(change => {
+         if(change.type == 'added'){
+            this.comments.unshift({
+               from: change.doc.data().from,
+               content: change.doc.data().content
+            })
+         }
+      })
+    })
+
   },
 
-  
+
   methods: {
     addComment(){
       if(this.newComment){
@@ -74,5 +92,8 @@ export default {
    color: #F99273;
    margin-bottom: 50px;
    font-size: 50px;
+}
+.fromcoment{
+   color: #F99273;
 }
 </style>
