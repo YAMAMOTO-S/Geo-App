@@ -10,6 +10,7 @@ import ViewPlofile from '@/components/profile/ViewPlofile'
 Vue.use(Router)
 
 const router = new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
