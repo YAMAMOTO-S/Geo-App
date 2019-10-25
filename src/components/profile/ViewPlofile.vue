@@ -4,7 +4,7 @@
          <h2 class="center">{{ profile.alias}}</h2>
          <ul class="comments collection">
             <li v-for="(comment, index) in comments" :key="index">
-               <div class="fromcoment">{{ comment.from }} :</div>
+               <div class="fromcoment">{{ comment.from }}</div>
                <div class="gray-text ">{{ comment.content }}</div>
             </li>
          </ul>
@@ -73,7 +73,7 @@ export default {
         this.feedback = null
         db.collection('comments').add({
           to: this.$route.params.id,
-          from: this.user.id,
+          from: this.user.alias,
           content: this.newComment,
           time: Date.now()
         }).then(doc => {
@@ -96,4 +96,13 @@ export default {
 .fromcoment{
    color: #F99273;
 }
+.profile .card{
+   padding: 20px;
+   margin-top: 60px;
+}
+.profile li{
+   padding: 10px;
+   border-bottom: 1px solid #eee;
+}
+
 </style>
