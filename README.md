@@ -1,21 +1,17 @@
-# geo-app
+# Geo-App
+フロントにはVue.js, バックエンドにはFirebase Databaseを使用したユーザーの位置情報の取得と非同期でチャットをすることができるアプリです。
 
-> A Vue.js project
+# Why
+近年勢いが出てきているVue.js とFirebase を個人的に興味がありその勉強の為に作成しました。またVue.js でのAPIの使用方法も勉強したく、Google Map APIも使用しました。
 
-## Build Setup
+# 使用技術
+*フロントエンド*
+Vue.js, javascript, html
+*バックエンド*
+Firebase Database, Cloud Firestore
+*その他*
+Firebase Authentication によるSNSアカウントでのログイン
 
-``` bash
-# install dependencies
-npm install
 
-# serve with hot reload at localhost:8080
-npm run dev
 
-# build for production with minification
-npm run build
 
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
